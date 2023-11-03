@@ -21,7 +21,7 @@ pub struct Header {
 }
 
 impl Header {
-    pub fn read_from<R: Read + Seek>(reader: &mut R, at_offset: u64) -> Self {
+    pub fn read_from<R: Read + Seek>(reader: &mut R) -> Self {
         let mut signature_buf = [0u8; 4];
         reader
             .read_exact(&mut signature_buf)
@@ -39,6 +39,7 @@ impl Header {
                 char::from_u32(u32::from_le_bytes([x[0], x[1], 0, 0]))
                     .expect("Should be valid unicode")
             })
+            .filter(|&x| x != '\0')
             .collect();
         let mut system_root_buf = [0u8; 520];
         reader
@@ -50,6 +51,7 @@ impl Header {
                 char::from_u32(u32::from_le_bytes([x[0], x[1], 0, 0]))
                     .expect("Should be valid unicode")
             })
+            .filter(|&x| x != '\0')
             .collect();
         let total_number_of_events = get_u32_le(reader);
         reader
@@ -117,6 +119,7 @@ impl OSVersionInfoEx {
         let csd_version: String = csd_version_buf
             .chunks(2)
             .map(|x| char::from_u32(u32::from_le_bytes([x[0], x[1], 0, 0])).unwrap())
+            .filter(|&x| x != '\0')
             .collect();
         let service_pack_major = get_u16_le(reader);
         let service_pack_minor = get_u16_le(reader);
