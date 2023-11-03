@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::io::{Read, Seek, SeekFrom};
 
 #[derive(Debug)]
@@ -165,6 +167,29 @@ pub struct SuiteMask {
     terminal: bool,
     wh_server: bool,
     multi_user_ts: bool,
+}
+
+pub struct ProcMonProcess {
+    pub index: u32,
+    pub pid: u32,
+    pub parent_pid: u32,
+    pub auth_id: u64,
+    pub session_num: u32,
+    pub start_time: u64,
+    pub end_time: u64,
+    pub is_virtualized: bool,
+    pub is_64bit: bool,
+    pub integrity_str_idx: u32,
+    pub user_str_idx: u32,
+    pub process_name_str_idx: u32,
+    pub image_path_idx: u32,
+    pub cmdline_str_idx: u32,
+    pub company_name_str_idx: u32,
+    pub version_str_idx: u32,
+    pub description_str_idx: u32,
+    pub icon_small_idx: u32,
+    pub icon_big_idx: u32,
+    pub number_of_modules: u32,
 }
 
 pub const VER_NT_WORKSTATION: u8 = 1;
